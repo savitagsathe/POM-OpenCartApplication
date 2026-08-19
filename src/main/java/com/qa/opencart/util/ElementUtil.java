@@ -1,13 +1,8 @@
 package com.qa.opencart.util;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.concurrent.TimeUnit;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import com.qa.opencart.factory.DriverFactory;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -19,6 +14,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.qa.opencart.factory.DriverFactory;
 
 public class ElementUtil {
 	private WebDriver driver;
@@ -214,11 +212,9 @@ public class ElementUtil {
 	}
 
 	public Alert waitForJSAlert(int timeOut) {
-		WebDriverWait wait = new WebDriverWait(driver, 10);
-		return wait.until(ExpectedConditions.alertIsPresent());
-
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
+	    return wait.until(ExpectedConditions.alertIsPresent());
 	}
-
 	public void acceptAlert(int timeOut) {
 		waitForJSAlert(timeOut).accept();
 	}
@@ -255,16 +251,20 @@ public class ElementUtil {
 	}
 
 //overirde same method polling interval
-	/*public WebElement waitForElementPresent(By locator, int timeout, int intervalTime) {
-		WebDriverWait wait = new WebDriverWait(driver, timeout, intervalTime);
-		return wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+		
+	public WebElement waitForElementPresent(By locator, int timeout, int intervalTime) {
+	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+	    wait.pollingEvery(Duration.ofSeconds(intervalTime));
 
+	    return wait.until(
+	            ExpectedConditions.presenceOfElementLocated(locator));
 	}
+	
 
 	public WebElement waitForElementVisible(By locator, Duration timeout) {
-		WebDriverWait wait = new WebDriverWait(driver, timeout);// return type of WebDriverWait is WebElement
-		return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-
+	    WebDriverWait wait = new WebDriverWait(driver, timeout);
+	    return wait.until(
+	            ExpectedConditions.visibilityOfElementLocated(locator));
 	}
 
 	/*

@@ -30,7 +30,7 @@ public class LoginPageTest extends BaseTest {
 	public void getLoginPageUrlTest() {
 		String url=loginPage.getLoginPageUrl();
 		System.out.println("Actual page url is:"+url);
-		Assert.assertTrue(url.contains(Constants.LOGIN_PAGE_UR_VALUE));
+		Assert.assertTrue(url.contains(Constants.LOGIN_PAGE_URL_VALUE));
 	}
 	@Description("Login Page forgot pwd test")
 	@Severity(SeverityLevel.CRITICAL)

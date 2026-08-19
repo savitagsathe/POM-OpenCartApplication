@@ -34,7 +34,7 @@ WebDriver driver;
 	public void clickElementByJSLocator(By locator) {
 		JavascriptExecutor js=(JavascriptExecutor)driver;
 
-		js.executeScript("arguments(0).click();",locator);
+		js.executeScript("arguments[0].click();",locator);
 	}
 	
 	public void sendKeysWithId(String id,String value) {
@@ -58,7 +58,7 @@ WebDriver driver;
 	public String getTitleByJS()
 	{
 		JavascriptExecutor js=(JavascriptExecutor)driver;
-		return js.executeScript("return document.title:").toString();
+		return js.executeScript("return document.title;").toString();
 	}
 	
 	public void refreshBrowserByJS() {
