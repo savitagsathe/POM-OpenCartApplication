@@ -15,6 +15,7 @@ import io.qameta.allure.Story;
 @Story("US 20: Login page feature with some basic modules and features")
 
 public class LoginPageTest extends BaseTest {
+	
 	@Description("Login Page title test")
 	@Severity(SeverityLevel.NORMAL)
 	@Test
@@ -32,6 +33,7 @@ public class LoginPageTest extends BaseTest {
 		System.out.println("Actual page url is:"+url);
 		Assert.assertTrue(url.contains(Constants.LOGIN_PAGE_URL_VALUE));
 	}
+	
 	@Description("Login Page forgot pwd test")
 	@Severity(SeverityLevel.CRITICAL)
 	@Test
@@ -52,4 +54,5 @@ public class LoginPageTest extends BaseTest {
 	public void loginTest() {
 loginPage.doLogin(prop.getProperty("username").trim(),prop.getProperty("password").trim());	
 }
+	
 }
