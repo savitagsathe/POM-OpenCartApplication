@@ -6,55 +6,51 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo 'Building the project'
+                git 'https://github.com/jglick/simple-maven-project-with-tests.git'
+                bat 'mvn -Dmaven.test.failure.ignore=true clean package'
+            }
+
+            post {
+                success {
+                    junit '**/target/surefire-reports/TEST-*.xml'
+                    archiveArtifacts 'target/*.jar'
+                }
             }
         }
 
-        stage('Run Unit Tests') {
+        stage('Regression Automation Test') {
             steps {
-                echo 'Run unit level test cases'
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    git 'https://github.com/naveenanimation20/July2021POMSeries.git'
+                    bat 'mvn clean install'
+                }
             }
         }
 
-        stage('Deploy on Dev') {
+        stage('Publish Allure Reports') {
             steps {
-                echo 'Deploy on Dev'
+                script {
+                    allure([
+                        includeProperties: false,
+                        jdk: '',
+                        properties: [],
+                        reportBuildPolicy: 'ALWAYS',
+                        results: [[path: 'allure-results']]
+                    ])
+                }
             }
         }
 
-        stage('Deploy on QA') {
+        stage('Publish Extent Report') {
             steps {
-                echo 'Deploy on QA'
-            }
-        }
-
-        stage('Sanity Test') {
-            steps {
-                echo 'Run Sanity'
-            }
-        }
-
-        stage('Regression Test') {
-            steps {
-                echo 'Run Regression'
-            }
-        }
-
-        stage('Deploy on Stage') {
-            steps {
-                echo 'Deploy on Stage'
-            }
-        }
-
-        stage('Sanity on Stage') {
-            steps {
-                echo 'Sanity done on Stage'
-            }
-        }
-
-        stage('Prod Deployment') {
-            steps {
-                echo 'Deployed on Prod'
+                publishHTML([
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: false,
+                    reportDir: 'build',
+                    reportFiles: 'TestExecutionReport.html',
+                    reportName: 'HTML Extent Report'
+                ])
             }
         }
     }
