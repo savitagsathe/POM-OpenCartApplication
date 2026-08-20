@@ -25,7 +25,7 @@ maven 'maven'
         stage('Regression Automation Test') {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    git 'https://github.com/naveenanimation20/July2021POMSeries.git'
+                    git 'https://github.com/savitagsathe/POM-OpenCartApplication.git'
                     bat 'mvn clean install'
                 }
             }
